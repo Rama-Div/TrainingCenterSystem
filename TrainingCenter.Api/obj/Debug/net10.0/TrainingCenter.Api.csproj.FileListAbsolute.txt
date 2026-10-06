@@ -157,3 +157,4 @@ C:\Users\user\Desktop\New folder\TrainingCenter.Api\obj\Debug\net10.0\refint\Tra
 C:\Users\user\Desktop\New folder\TrainingCenter.Api\obj\Debug\net10.0\TrainingCenter.Api.pdb
 C:\Users\user\Desktop\New folder\TrainingCenter.Api\obj\Debug\net10.0\TrainingCenter.Api.genruntimeconfig.cache
 C:\Users\user\Desktop\New folder\TrainingCenter.Api\obj\Debug\net10.0\ref\TrainingCenter.Api.dll
+C:\Users\user\Desktop\New folder\TrainingCenter.Api\obj\Debug\net10.0\TrainingCenter.Api.sourcelink.json
