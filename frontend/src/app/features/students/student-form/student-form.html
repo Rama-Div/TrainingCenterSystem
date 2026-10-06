@@ -1,0 +1,38 @@
+<div style="max-width: 500px; margin: 2rem auto;">
+  <h2>{{ studentId() ? 'Edit Student' : 'Create Student' }}</h2>
+
+  @if (errorMessage()) {
+    <app-error-message [message]="errorMessage()!" />
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+      <label>Name</label>
+      <input type="text" formControlName="name" style="width: 100%; padding: 8px; margin-bottom: 8px;" />
+    </div>
+
+    <div>
+      <label>Email</label>
+      <input type="email" formControlName="email" style="width: 100%; padding: 8px; margin-bottom: 8px;" />
+    </div>
+
+    <div>
+      <label>Age</label>
+      <input type="number" formControlName="age" style="width: 100%; padding: 8px; margin-bottom: 8px;" />
+    </div>
+
+    <div>
+      <label>Major</label>
+      <input type="text" formControlName="major" style="width: 100%; padding: 8px; margin-bottom: 8px;" />
+    </div>
+
+    <div>
+      <label>Phone</label>
+      <input type="text" formControlName="phone" style="width: 100%; padding: 8px; margin-bottom: 8px;" />
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || loading()" style="padding: 10px 20px;">
+      {{ loading() ? 'Saving...' : 'Submit' }}
+    </button>
+  </form>
+</div>

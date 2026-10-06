@@ -1,0 +1,28 @@
+<div style="max-width: 800px; margin: 2rem auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Students Directory</h2>
+    @if (authService.isLoggedIn()) {
+      <a routerLink="/students/new" style="background: green; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">+ Create Student</a>
+    }
+  </div>
+
+  <div style="display: flex; gap: 1rem; margin: 1rem 0;">
+    <input type="text" placeholder="Search by name..." (input)="onSearchChange($event)" style="flex: 1; padding: 8px;" />
+    <input type="text" placeholder="Filter by major..." (input)="onMajorChange($event)" style="flex: 1; padding: 8px;" />
+  </div>
+
+  @if (loading()) {
+    <app-loading-message />
+  } @else if (error()) {
+    <app-error-message [message]="error()!" />
+  } @else if (students().length === 0) {
+    <app-empty-message message="No students found matching criteria." />
+  } @else {
+    @for (s of students(); track s.id) {
+      <app-student-card 
+        [student]="s" 
+        [isLoggedIn]="authService.isLoggedIn()" 
+        (onDelete)="deleteStudent($event)" />
+    }
+  }
+</div>

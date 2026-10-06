@@ -1,0 +1,49 @@
+<div style="max-width: 800px; margin: 2rem auto;">
+  <a routerLink="/courses" style="display: inline-block; margin-bottom: 1rem; color: #4b5563;">← Back to Courses</a>
+
+  @if (loading()) {
+    <app-loading-message />
+  } @else if (error()) {
+    <app-error-message [message]="error()!" />
+  } @else if (course()) {
+    <div style="border: 1px solid #e5e7eb; padding: 1.5rem; border-radius: 8px; background: #ffffff; margin-bottom: 2rem;">
+      <h2 style="margin-top: 0;">{{ course()?.title }}</h2>
+      <p><strong>Description:</strong> {{ course()?.description }}</p>
+      <p><strong>Instructor:</strong> {{ course()?.instructorName || 'Not Assigned' }}</p>
+      <p><strong>Capacity:</strong> {{ course()?.capacity }}</p>
+      <p><strong>Dates:</strong> {{ course()?.startDate | date:'mediumDate' }} - {{ course()?.endDate | date:'mediumDate' }}</p>
+      <p><strong>Registered Students Count:</strong> {{ registeredStudents().length }} / {{ course()?.capacity }}</p>
+
+      @if (authService.isLoggedIn()) {
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+          <a [routerLink]="['/courses', course()?.id, 'edit']" style="background: #10b981; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">Edit Course</a>
+          <a routerLink="/enrollments/new" style="background: #2563eb; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">Enroll Student</a>
+        </div>
+      }
+    </div>
+
+    <h3>Registered Students</h3>
+    @if (registeredStudents().length === 0) {
+      <app-empty-message message="No students are currently enrolled in this course." />
+    } @else {
+      <table style="width: 100%; border-collapse: collapse; background: #ffffff; border: 1px solid #e5e7eb;">
+        <thead>
+          <tr style="background: #f3f4f6; text-align: left;">
+            <th style="padding: 10px; border-bottom: 1px solid #e5e7eb;">Name</th>
+            <th style="padding: 10px; border-bottom: 1px solid #e5e7eb;">Email</th>
+            <th style="padding: 10px; border-bottom: 1px solid #e5e7eb;">Major</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (s of registeredStudents(); track s.id) {
+            <tr style="border-bottom: 1px solid #e5e7eb;">
+              <td style="padding: 10px;">{{ s.name }}</td>
+              <td style="padding: 10px;">{{ s.email }}</td>
+              <td style="padding: 10px;">{{ s.major }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
+</div>

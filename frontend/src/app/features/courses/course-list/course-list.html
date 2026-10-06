@@ -1,0 +1,31 @@
+<div style="max-width: 800px; margin: 2rem auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <h2>Courses Offered</h2>
+    @if (authService.isLoggedIn()) {
+      <a routerLink="/courses/new" style="background: green; color: white; padding: 8px 16px; text-decoration: none;">+ Add Course</a>
+    }
+  </div>
+
+  @if (loading()) {
+    <app-loading-message />
+  } @else if (error()) {
+    <app-error-message [message]="error()!" />
+  } @else if (courses().length === 0) {
+    <app-empty-message message="No courses found." />
+  } @else {
+    @for (c of courses(); track c.id) {
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 6px;">
+        <h3>{{ c.title }}</h3>
+        <p><strong>Instructor:</strong> {{ c.instructorName || 'Not Assigned' }}</p>
+        <p><strong>Capacity:</strong> {{ c.capacity }}</p>
+        <p><strong>Dates:</strong> {{ c.startDate | date:'mediumDate' }} - {{ c.endDate | date:'mediumDate' }}</p>
+        <div style="margin-top: 8px;">
+          @if (authService.isLoggedIn()) {
+            <a [routerLink]="['/courses', c.id, 'edit']" style="color: green; margin-right: 12px;">Edit Course</a>
+            <button (click)="deleteCourse(c.id)" style="color: red; cursor: pointer;">Delete</button>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>

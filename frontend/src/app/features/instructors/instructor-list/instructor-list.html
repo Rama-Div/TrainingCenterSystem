@@ -1,0 +1,42 @@
+<div style="max-width: 800px; margin: 2rem auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <h2>Instructors List</h2>
+    @if (authService.isLoggedIn()) {
+      <a routerLink="/instructors/new" style="background: green; color: white; padding: 8px 16px; text-decoration: none;">+ Add Instructor</a>
+    }
+  </div>
+
+  @if (loading()) {
+    <app-loading-message />
+  } @else if (error()) {
+    <app-error-message [message]="error()!" />
+  } @else if (instructors().length === 0) {
+    <app-empty-message message="No instructors found." />
+  } @else {
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="background: #f1f3f5; text-align: left;">
+          <th style="padding: 8px;">Name</th>
+          <th style="padding: 8px;">Email</th>
+          <th style="padding: 8px;">Specialization</th>
+          <th style="padding: 8px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (i of instructors(); track i.id) {
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 8px;">{{ i.name }}</td>
+            <td style="padding: 8px;">{{ i.email }}</td>
+            <td style="padding: 8px;">{{ i.specialization }}</td>
+            <td style="padding: 8px;">
+              @if (authService.isLoggedIn()) {
+                <a [routerLink]="['/instructors', i.id, 'edit']" style="color: green; margin-right: 8px;">Edit</a>
+                <button (click)="deleteInstructor(i.id)" style="color: red; cursor: pointer;">Delete</button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

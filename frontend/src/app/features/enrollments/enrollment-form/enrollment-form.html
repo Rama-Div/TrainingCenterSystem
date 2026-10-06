@@ -1,0 +1,39 @@
+<div style="max-width: 500px; margin: 2rem auto;">
+  <h2>Enroll Student in Course</h2>
+
+  @if (errorMessage()) {
+    <app-error-message [message]="errorMessage()!" />
+  }
+
+  @if (successMessage()) {
+    <div style="background: #e6ffe6; color: green; padding: 10px; margin-bottom: 10px; border-radius: 4px;">
+      {{ successMessage() }}
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+      <label>Select Student</label>
+      <select formControlName="studentId" style="width: 100%; padding: 8px; margin-bottom: 12px;">
+        <option [ngValue]="null">-- Choose Student --</option>
+        @for (s of students(); track s.id) {
+          <option [value]="s.id">{{ s.name }} ({{ s.major }})</option>
+        }
+      </select>
+    </div>
+
+    <div>
+      <label>Select Course</label>
+      <select formControlName="courseId" style="width: 100%; padding: 8px; margin-bottom: 12px;">
+        <option [ngValue]="null">-- Choose Course --</option>
+        @for (c of courses(); track c.id) {
+          <option [value]="c.id">{{ c.title }} (Capacity: {{ c.capacity }})</option>
+        }
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || loading()" style="padding: 10px 20px;">
+      {{ loading() ? 'Enrolling...' : 'Submit Enrollment' }}
+    </button>
+  </form>
+</div>

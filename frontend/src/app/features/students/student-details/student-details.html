@@ -1,0 +1,36 @@
+<div style="max-width: 800px; margin: 2rem auto;">
+  <a routerLink="/students" style="display: inline-block; margin-bottom: 1rem; color: #4b5563;">← Back to Students</a>
+
+  @if (loading()) {
+    <app-loading-message />
+  } @else if (error()) {
+    <app-error-message [message]="error()!" />
+  } @else if (student()) {
+    <div style="border: 1px solid #e5e7eb; padding: 1.5rem; border-radius: 8px; background: #ffffff; margin-bottom: 2rem;">
+      <h2 style="margin-top: 0;">{{ student()?.name }}</h2>
+      <p><strong>Email:</strong> {{ student()?.email }}</p>
+      <p><strong>Major:</strong> {{ student()?.major }}</p>
+      <p><strong>Age:</strong> {{ student()?.age }}</p>
+      <p><strong>Phone:</strong> {{ student()?.phone }}</p>
+
+      @if (authService.isLoggedIn()) {
+        <div style="margin-top: 1rem;">
+          <a [routerLink]="['/students', student()?.id, 'edit']" style="background: #10b981; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">Edit Student Info</a>
+        </div>
+      }
+    </div>
+
+    <h3>Enrolled Courses</h3>
+    @if (enrolledCourses().length === 0) {
+      <app-empty-message message="This student is not enrolled in any courses yet." />
+    } @else {
+      @for (course of enrolledCourses(); track course.id) {
+        <div style="border: 1px solid #e5e7eb; padding: 1rem; margin-bottom: 1rem; border-radius: 6px; background: #f9fafb;">
+          <h4 style="margin: 0 0 8px 0;">{{ course.title }}</h4>
+          <p style="margin: 0 0 4px 0;"><strong>Instructor:</strong> {{ course.instructorName || 'Not Assigned' }}</p>
+          <p style="margin: 0;"><strong>Dates:</strong> {{ course.startDate | date:'mediumDate' }} - {{ course.endDate | date:'mediumDate' }}</p>
+        </div>
+      }
+    }
+  }
+</div>
